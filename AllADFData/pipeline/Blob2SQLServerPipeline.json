@@ -170,7 +170,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "SqlECTETableDS",
+									"referenceName": "SqlServerCTETableDS",
 									"type": "DatasetReference"
 								}
 							]

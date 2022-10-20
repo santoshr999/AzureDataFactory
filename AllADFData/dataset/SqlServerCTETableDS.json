@@ -1,0 +1,16 @@
+{
+	"name": "SqlServerCTETableDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerSHlinkedservice1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "EMPLOYEECTE"
+		}
+	}
+}
