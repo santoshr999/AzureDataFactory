@@ -1,0 +1,232 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SanthuRealTimeScenarios10"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"AzureSqlDatabaseLinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabaseLinkedService'"
+		},
+		"OnPremsisFileServerLinkedService_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'OnPremsisFileServerLinkedService'"
+		},
+		"SQLServerSHlinked service_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQLServerSHlinked service'"
+		},
+		"SQLServerSHlinked service_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SQLServerSHlinked service'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsstoragesanthu.dfs.core.windows.net/"
+		},
+		"OnPremsisFileServerLinkedService_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "\\\\DESKTOP-2L8TIDE\\Users\\LENOVO\\Documents\\CSV Files"
+		},
+		"OnPremsisFileServerLinkedService_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "SantoshReddy"
+		},
+		"SQLServerSHlinked service_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "SantoshReddy"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "SanthuRealTimeScenarios10_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "SanthuRealTimeScenarios10_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'SanthuRealTimeScenarios10_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "SanthuRealTimeScenarios10_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'SanthuRealTimeScenarios10_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "SanthuRealTimeScenarios10_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureSqlDatabaseLinkedService_connectionString": {
+						"value": "[parameters('AzureSqlDatabaseLinkedService_connectionString')]"
+					},
+					"OnPremsisFileServerLinkedService_password": {
+						"value": "[parameters('OnPremsisFileServerLinkedService_password')]"
+					},
+					"SQLServerSHlinked service_connectionString": {
+						"value": "[parameters('SQLServerSHlinked service_connectionString')]"
+					},
+					"SQLServerSHlinked service_password": {
+						"value": "[parameters('SQLServerSHlinked service_password')]"
+					},
+					"OnPremsisFileServerLinkedService_properties_typeProperties_host": {
+						"value": "[parameters('OnPremsisFileServerLinkedService_properties_typeProperties_host')]"
+					},
+					"OnPremsisFileServerLinkedService_properties_typeProperties_userId": {
+						"value": "[parameters('OnPremsisFileServerLinkedService_properties_typeProperties_userId')]"
+					},
+					"SQLServerSHlinked service_properties_typeProperties_userName": {
+						"value": "[parameters('SQLServerSHlinked service_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'SanthuRealTimeScenarios10_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "SanthuRealTimeScenarios10_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'SanthuRealTimeScenarios10_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "SanthuRealTimeScenarios10_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'SanthuRealTimeScenarios10_ArmTemplate_4')]"
+			]
+		},
+		{
+			"name": "SanthuRealTimeScenarios10_ArmTemplate_6",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_6.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'SanthuRealTimeScenarios10_ArmTemplate_5')]"
+			]
+		}
+	]
+}
