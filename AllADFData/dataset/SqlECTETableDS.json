@@ -2,7 +2,7 @@
 	"name": "SqlECTETableDS",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "SQLServerSHlinked service",
+			"referenceName": "SqlServerSHlinkedservice1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
