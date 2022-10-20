@@ -1,0 +1,37 @@
+{
+	"name": "SetVariableActivitypipeline_copy2",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set ValueForFileType",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "FileType",
+					"value": {
+						"value": "@pipeline().parameters.FileName",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"FileName": {
+				"type": "string",
+				"defaultValue": "copydata"
+			}
+		},
+		"variables": {
+			"FileType": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "ALLAcitivitySPipeline"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-10-19T18:25:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

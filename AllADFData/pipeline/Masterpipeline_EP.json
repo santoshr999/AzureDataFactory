@@ -1,0 +1,51 @@
+{
+	"name": "Masterpipeline_EP",
+	"properties": {
+		"activities": [
+			{
+				"name": "ExecutePipelinebyinvokeanotherpipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "IfConditionActivity2pipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": false,
+					"parameters": {
+						"copytotarget1folder": {
+							"value": "@pipeline().parameters.copytotarget1folder",
+							"type": "Expression"
+						},
+						"targer1folder": {
+							"value": "@pipeline().parameters.target1folder",
+							"type": "Expression"
+						},
+						"target2folder": {
+							"value": "@pipeline().parameters.target2folder",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"copytotarget1folder": {
+				"type": "string"
+			},
+			"target1folder": {
+				"type": "string"
+			},
+			"target2folder": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "ALLAcitivitySPipeline"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-10-19T18:25:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

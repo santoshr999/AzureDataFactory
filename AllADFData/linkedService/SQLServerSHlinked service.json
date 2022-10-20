@@ -1,0 +1,17 @@
+{
+	"name": "SQLServerSHlinked service",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=DESKTOP-2L8TIDE\\SQL2014;initial catalog=DE_SQLPRACTISE",
+			"userName": "SantoshReddy",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxZjhhYWJkMy1jODgzLTQ2NDgtOTcyNi00YmRiZjg3ZWUxMTQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRSELFHOSTED",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

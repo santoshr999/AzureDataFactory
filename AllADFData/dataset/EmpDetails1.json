@@ -1,0 +1,17 @@
+{
+	"name": "EmpDetails1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQLServerSHlinked service",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "EmpDetals"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

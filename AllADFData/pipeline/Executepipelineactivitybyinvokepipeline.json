@@ -1,0 +1,26 @@
+{
+	"name": "Executepipelineactivitybyinvokepipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "ExecutePipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "AureSqlToBlobpipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "ALLAcitivitySPipeline"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-10-12T04:18:12Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

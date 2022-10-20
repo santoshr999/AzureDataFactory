@@ -1,0 +1,25 @@
+{
+	"name": "SechduletriggerForUntilActivity",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "UntilActivity2inapipeline_iffilenotexists",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2022-10-11T12:15:00Z",
+				"endTime": "2022-10-11T12:15:30Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

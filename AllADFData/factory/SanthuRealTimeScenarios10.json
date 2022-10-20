@@ -1,0 +1,9 @@
+{
+	"name": "SanthuRealTimeScenarios10",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e569cfa4-8e60-480a-a4e9-11d20e8f0345",
+		"tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3"
+	}
+}

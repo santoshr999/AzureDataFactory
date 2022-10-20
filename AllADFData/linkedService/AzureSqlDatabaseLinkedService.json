@@ -1,0 +1,16 @@
+{
+	"name": "AzureSqlDatabaseLinkedService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=santosh.database.windows.net;initial catalog=SanthuDEDB;user id=SanthuAzure",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiZmM0ZjcxMC1hMTIyLTQ1NjktODZmMC02ODJmM2EyYmRkZTEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRSELFHOSTED",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

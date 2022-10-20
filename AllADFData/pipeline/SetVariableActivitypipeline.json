@@ -1,0 +1,40 @@
+{
+	"name": "SetVariableActivitypipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Passingvarvalueatruntime",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "var1 value",
+					"value": {
+						"value": "@pipeline().parameters.parvar1",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"parvar1": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"var1 value": {
+				"type": "String",
+				"defaultValue": "6"
+			},
+			"varaibale1": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "ALLAcitivitySPipeline"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-10-19T18:25:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
