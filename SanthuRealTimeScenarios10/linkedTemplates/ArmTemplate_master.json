@@ -31,6 +31,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SQLServerSHlinked service'"
 		},
+		"SqlServerSHlinkedservice1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServerSHlinkedservice1'"
+		},
+		"SqlServerSHlinkedservice1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServerSHlinkedservice1'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsstoragesanthu.dfs.core.windows.net/"
@@ -46,6 +54,10 @@
 		"SQLServerSHlinked service_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "SantoshReddy"
+		},
+		"SqlServerSHlinkedservice1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Santhosh Reddy"
 		},
 		"containerUri": {
 			"type": "string",
@@ -153,6 +165,12 @@
 					"SQLServerSHlinked service_password": {
 						"value": "[parameters('SQLServerSHlinked service_password')]"
 					},
+					"SqlServerSHlinkedservice1_connectionString": {
+						"value": "[parameters('SqlServerSHlinkedservice1_connectionString')]"
+					},
+					"SqlServerSHlinkedservice1_password": {
+						"value": "[parameters('SqlServerSHlinkedservice1_password')]"
+					},
 					"OnPremsisFileServerLinkedService_properties_typeProperties_host": {
 						"value": "[parameters('OnPremsisFileServerLinkedService_properties_typeProperties_host')]"
 					},
@@ -161,6 +179,9 @@
 					},
 					"SQLServerSHlinked service_properties_typeProperties_userName": {
 						"value": "[parameters('SQLServerSHlinked service_properties_typeProperties_userName')]"
+					},
+					"SqlServerSHlinkedservice1_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServerSHlinkedservice1_properties_typeProperties_userName')]"
 					}
 				}
 			},

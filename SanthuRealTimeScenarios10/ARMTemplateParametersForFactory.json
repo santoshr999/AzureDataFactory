@@ -23,6 +23,12 @@
 		"SQLServerSHlinked service_password": {
 			"value": ""
 		},
+		"SqlServerSHlinkedservice1_connectionString": {
+			"value": ""
+		},
+		"SqlServerSHlinkedservice1_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://adlsstoragesanthu.dfs.core.windows.net/"
 		},
@@ -34,6 +40,9 @@
 		},
 		"SQLServerSHlinked service_properties_typeProperties_userName": {
 			"value": "SantoshReddy"
+		},
+		"SqlServerSHlinkedservice1_properties_typeProperties_userName": {
+			"value": "Santhosh Reddy"
 		}
 	}
 }

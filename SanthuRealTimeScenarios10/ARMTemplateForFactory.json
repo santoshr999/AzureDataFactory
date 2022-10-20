@@ -31,6 +31,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SQLServerSHlinked service'"
 		},
+		"SqlServerSHlinkedservice1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServerSHlinkedservice1'"
+		},
+		"SqlServerSHlinkedservice1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServerSHlinkedservice1'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsstoragesanthu.dfs.core.windows.net/"
@@ -46,6 +54,10 @@
 		"SQLServerSHlinked service_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "SantoshReddy"
+		},
+		"SqlServerSHlinkedservice1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Santhosh Reddy"
 		}
 	},
 	"variables": {
@@ -144,7 +156,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SqlserverDateTableDS",
+								"referenceName": "SqlServerEMPDATEDS",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -160,7 +172,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/sqldateDS')]",
-				"[concat(variables('factoryId'), '/datasets/SqlserverDateTableDS')]"
+				"[concat(variables('factoryId'), '/datasets/SqlServerEMPDATEDS')]"
 			]
 		},
 		{
@@ -1852,7 +1864,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "SqlServerEMPE2DS",
+								"referenceName": "SqlServerEMP2DataDS",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1868,7 +1880,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/EMPE2DS')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerEMPE2DS')]"
+				"[concat(variables('factoryId'), '/datasets/SqlServerEMP2DataDS')]"
 			]
 		},
 		{
@@ -4037,6 +4049,30 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/heypipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 10
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AggregateRankDS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -5750,7 +5786,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SQLServerSHlinked service",
+					"referenceName": "SqlServerSHlinkedservice1",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -5762,7 +5798,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLServerSHlinked service')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerSHlinkedservice1')]"
 			]
 		},
 		{
@@ -7192,6 +7228,82 @@
 				"[concat(variables('factoryId'), '/datasets/EmpSalDS')]",
 				"[concat(variables('factoryId'), '/datasets/EmpSalDSOP')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntime1')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerSHlinkedservice1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('SqlServerSHlinkedservice1_connectionString')]",
+					"userName": "[parameters('SqlServerSHlinkedservice1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SqlServerSHlinkedservice1_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "integrationRuntime1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/integrationRuntime1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerEMPDATEDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServerSHlinkedservice1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EMPLOYEEDATE"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerSHlinkedservice1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerEMP2DataDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServerSHlinkedservice1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EMPLOYEES2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerSHlinkedservice1')]"
 			]
 		}
 	]
