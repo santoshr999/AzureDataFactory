@@ -662,7 +662,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "SqlECTETableDS",
+											"referenceName": "SqlServerCTETableDS",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -681,7 +681,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/E_CTEDS')]",
-				"[concat(variables('factoryId'), '/datasets/SqlECTETableDS')]"
+				"[concat(variables('factoryId'), '/datasets/SqlServerCTETableDS')]"
 			]
 		},
 		{
@@ -5522,7 +5522,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "SQLServerSHlinked service",
+					"referenceName": "SqlServerSHlinkedservice1",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -5534,7 +5534,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLServerSHlinked service')]"
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerSHlinkedservice1')]"
 			]
 		},
 		{
@@ -7300,6 +7300,27 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "EMPLOYEES2"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServerSHlinkedservice1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerCTETableDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServerSHlinkedservice1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "EMPLOYEECTE"
 				}
 			},
 			"dependsOn": [
