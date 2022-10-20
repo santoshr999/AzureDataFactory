@@ -111,7 +111,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SqlServerEMPE2DS",
+						"referenceName": "SqlServerEMP2DataDS",
 						"type": "DatasetReference"
 					}
 				]
