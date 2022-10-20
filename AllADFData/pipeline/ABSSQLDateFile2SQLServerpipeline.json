@@ -87,7 +87,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "SqlserverDateTableDS",
+						"referenceName": "SqlServerEMPDATEDS",
 						"type": "DatasetReference"
 					}
 				]
