@@ -17,6 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "\nSELECT TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME \n                               FROM INFORMATION_SCHEMA.TABLES\n\t\t\t\t\t\t\t   WHERE TABLE_SCHEMA = 'DBO'",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
