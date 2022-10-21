@@ -1,0 +1,12 @@
+{
+	"name": "SqlServerTableList2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerSHlinkedservice1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
