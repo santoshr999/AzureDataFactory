@@ -7438,15 +7438,15 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "SqlServerTableName2",
+											"referenceName": "SqlServerTableInputDS",
 											"type": "DatasetReference",
 											"parameters": {
-												"TableSchema": {
-													"value": "@item().TABLE_SCHEMA",
+												"Tablename": {
+													"value": "@item().TABLE_NAME",
 													"type": "Expression"
 												},
-												"TableName": {
-													"value": "@item().TABLE_NAME",
+												"Tableschema": {
+													"value": "@item().TABLE_SCHEMA",
 													"type": "Expression"
 												}
 											}
@@ -7477,7 +7477,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SqlServerTableList2')]",
-				"[concat(variables('factoryId'), '/datasets/SqlServerTableName2')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTableInputDS')]",
 				"[concat(variables('factoryId'), '/datasets/DelimitedText3')]"
 			]
 		},
