@@ -254,7 +254,8 @@
 								"referenceName": "SqlServerTableList2",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
