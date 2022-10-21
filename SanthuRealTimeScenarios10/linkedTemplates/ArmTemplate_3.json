@@ -290,6 +290,67 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/InputData1DS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "inputData1",
+						"container": "santhucontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSVListDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						},
+						"folderPath": "inputData1",
+						"container": "santhucontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ASAccount2ADLSpipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1124,107 +1185,6 @@
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-19T18:25:17Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLServerSHlinked service')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/StoredProcedureActivity3inapipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Stored procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.12:00:00",
-							"retry": 1,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[getstdcountbygender]"
-						},
-						"linkedServiceName": {
-							"referenceName": "SQLServerSHlinked service",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"stdtotal": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "ALLAcitivitySPipeline"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-19T18:25:17Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQLServerSHlinked service')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/StoredProcedureActivity4inapipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SP_DS",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[[dbo].[DATASOFTWARE]",
-							"storedProcedureParameters": {
-								"DEPT": {
-									"value": "hive",
-									"type": "String"
-								},
-								"ID": {
-									"value": "14",
-									"type": "Int32"
-								},
-								"NAME": {
-									"value": "nani",
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "SQLServerSHlinked service",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "ALLAcitivitySPipeline"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-19T18:25:16Z"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/SQLServerSHlinked service')]"
