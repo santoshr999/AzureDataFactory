@@ -5,9 +5,9 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=True;data source=DESKTOP-HECGLB3\\SQLEXPRESS;initial catalog=DE_SQLPRACTISE",
+			"connectionString": "integrated security=True;data source=DESKTOP-HECGLB3\\SQLEXPRESS;initial catalog=MYDEMO",
 			"userName": "Santhosh Reddy",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxYmViNmVlNC1hMTJhLTQyOTUtYWVjOS0zNWE2NjY0MTgxNWYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI3ZTYzN2I2Ni01MmQxLTRlNjktOTdiZS0yNjMzZjFlNmJhZmQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntime1",
