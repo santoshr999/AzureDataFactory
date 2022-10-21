@@ -7,7 +7,7 @@
 		"typeProperties": {
 			"connectionString": "integrated security=True;data source=DESKTOP-HECGLB3\\SQLEXPRESS;initial catalog=DE_SQLPRACTISE",
 			"userName": "Santhosh Reddy",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwMmU3OWMwZi00MTNiLTQxOTItYjhjYi1lNmFmYzE1NmFkNzUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxYmViNmVlNC1hMTJhLTQyOTUtYWVjOS0zNWE2NjY0MTgxNWYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntime1",
