@@ -24,7 +24,8 @@
 					"dataset": {
 						"referenceName": "SqlServerTableList2",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
