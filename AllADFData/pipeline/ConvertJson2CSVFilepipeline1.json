@@ -1,0 +1,269 @@
+{
+	"name": "ConvertJson2CSVFilepipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyDataJsonToCSV",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['ID']"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ORDER_ID']"
+								},
+								"sink": {
+									"name": "ORDER_ID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Order_Date']"
+								},
+								"sink": {
+									"name": "Order_Date",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ship_date']"
+								},
+								"sink": {
+									"name": "ship_date",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Ship_Mode']"
+								},
+								"sink": {
+									"name": "Ship_Mode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Customer_id']"
+								},
+								"sink": {
+									"name": "Customer_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Custmoer_name']"
+								},
+								"sink": {
+									"name": "Custmoer_name"
+								}
+							},
+							{
+								"source": {
+									"path": "$['segment']"
+								},
+								"sink": {
+									"name": "segment",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Country']"
+								},
+								"sink": {
+									"name": "Country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['city']"
+								},
+								"sink": {
+									"name": "city",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['state']"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['postal_code']"
+								},
+								"sink": {
+									"name": "postal_code",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "$['region']"
+								},
+								"sink": {
+									"name": "region",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['product_id']"
+								},
+								"sink": {
+									"name": "product_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['category']"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['product_name']"
+								},
+								"sink": {
+									"name": "product_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['sales']"
+								},
+								"sink": {
+									"name": "sales",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['quantity']"
+								},
+								"sink": {
+									"name": "quantity",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"path": "$['discount']"
+								},
+								"sink": {
+									"name": "discount",
+									"type": "Int16"
+								}
+							},
+							{
+								"source": {
+									"path": "$['profit']"
+								},
+								"sink": {
+									"name": "profit",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['user_id']"
+								},
+								"sink": {
+									"name": "user_id",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "$['state_id']"
+								},
+								"sink": {
+									"name": "state_id",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "$['order_s']"
+								},
+								"sink": {
+									"name": "order_s",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "customerJsonData",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "CustomerDataCSV",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

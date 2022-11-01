@@ -1,0 +1,92 @@
+{
+	"name": "customerJsonData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "CustomerData.json",
+				"container": "input"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"ID": {
+					"type": "integer"
+				},
+				"ORDER_ID": {
+					"type": "string"
+				},
+				"Order_Date": {
+					"type": "string"
+				},
+				"ship_date": {
+					"type": "string"
+				},
+				"Ship_Mode": {
+					"type": "string"
+				},
+				"Customer_id": {
+					"type": "string"
+				},
+				"Custmoer_name": {
+					"type": "string"
+				},
+				"segment": {
+					"type": "string"
+				},
+				"Country": {
+					"type": "string"
+				},
+				"city": {
+					"type": "string"
+				},
+				"state": {
+					"type": "string"
+				},
+				"postal_code": {
+					"type": "integer"
+				},
+				"region": {
+					"type": "string"
+				},
+				"product_id": {
+					"type": "string"
+				},
+				"category": {
+					"type": "string"
+				},
+				"product_name": {
+					"type": "string"
+				},
+				"sales": {
+					"type": "number"
+				},
+				"quantity": {
+					"type": "integer"
+				},
+				"discount": {
+					"type": "integer"
+				},
+				"profit": {
+					"type": "number"
+				},
+				"user_id": {
+					"type": "null"
+				},
+				"state_id": {
+					"type": "null"
+				},
+				"order_s": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
