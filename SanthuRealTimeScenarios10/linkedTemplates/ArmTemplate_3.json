@@ -53,6 +53,84 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Other_Depts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "CondSplit",
+						"fileSystem": "targetdataload"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SoftDataDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "InputSoftwareData",
+						"fileSystem": "targetdataload"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/StudentDSOP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "OutputData",
+						"container": "santhucontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SurrogateKeyTransDS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -140,6 +218,101 @@
 						"type": "String"
 					}
 				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/customerJsonData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CustomerData.json",
+						"container": "input"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"ID": {
+							"type": "integer"
+						},
+						"ORDER_ID": {
+							"type": "string"
+						},
+						"Order_Date": {
+							"type": "string"
+						},
+						"ship_date": {
+							"type": "string"
+						},
+						"Ship_Mode": {
+							"type": "string"
+						},
+						"Customer_id": {
+							"type": "string"
+						},
+						"Custmoer_name": {
+							"type": "string"
+						},
+						"segment": {
+							"type": "string"
+						},
+						"Country": {
+							"type": "string"
+						},
+						"city": {
+							"type": "string"
+						},
+						"state": {
+							"type": "string"
+						},
+						"postal_code": {
+							"type": "integer"
+						},
+						"region": {
+							"type": "string"
+						},
+						"product_id": {
+							"type": "string"
+						},
+						"category": {
+							"type": "string"
+						},
+						"product_name": {
+							"type": "string"
+						},
+						"sales": {
+							"type": "number"
+						},
+						"quantity": {
+							"type": "integer"
+						},
+						"discount": {
+							"type": "integer"
+						},
+						"profit": {
+							"type": "number"
+						},
+						"user_id": {
+							"type": "null"
+						},
+						"state_id": {
+							"type": "null"
+						},
+						"order_s": {
+							"type": "string"
+						}
+					}
+				}
 			},
 			"dependsOn": []
 		},
@@ -510,286 +683,6 @@
 					"referenceName": "integrationRuntime1",
 					"type": "IntegrationRuntimeReference"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/customerJsonData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "CustomerData.json",
-						"container": "input"
-					}
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"ID": {
-							"type": "integer"
-						},
-						"ORDER_ID": {
-							"type": "string"
-						},
-						"Order_Date": {
-							"type": "string"
-						},
-						"ship_date": {
-							"type": "string"
-						},
-						"Ship_Mode": {
-							"type": "string"
-						},
-						"Customer_id": {
-							"type": "string"
-						},
-						"Custmoer_name": {
-							"type": "string"
-						},
-						"segment": {
-							"type": "string"
-						},
-						"Country": {
-							"type": "string"
-						},
-						"city": {
-							"type": "string"
-						},
-						"state": {
-							"type": "string"
-						},
-						"postal_code": {
-							"type": "integer"
-						},
-						"region": {
-							"type": "string"
-						},
-						"product_id": {
-							"type": "string"
-						},
-						"category": {
-							"type": "string"
-						},
-						"product_name": {
-							"type": "string"
-						},
-						"sales": {
-							"type": "number"
-						},
-						"quantity": {
-							"type": "integer"
-						},
-						"discount": {
-							"type": "integer"
-						},
-						"profit": {
-							"type": "number"
-						},
-						"user_id": {
-							"type": "null"
-						},
-						"state_id": {
-							"type": "null"
-						},
-						"order_s": {
-							"type": "string"
-						}
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CustomerDataCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "CustomerData",
-						"container": "output"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ASAccount2ADLSpipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyingDataFromASaccount2DLS",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "EmpDetailsIPDS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "EmpDetailsTargetDS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "DataTransFromSQLtoStorageAcoountviceversa"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-12T12:31:46Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/BulkFilesFromBlob2ADLSpipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"wildcardFileName": "*csv",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "InputDataDS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "InputDataTargetDS",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "MultipleTablesOR FilesCopy"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-19T18:25:16Z"
 			},
 			"dependsOn": []
 		}

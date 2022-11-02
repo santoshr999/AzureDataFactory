@@ -487,6 +487,144 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataEngineerProjectpipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get Metadata1",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DelimitedTextCSVList",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Get Metadata1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Get Metadata1').output.childItems",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ADEProjectDS",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "AzureSqlTable",
+											"type": "DatasetReference",
+											"parameters": {
+												"TableName": {
+													"value": "@item().name",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DelimitedTextCSVList')]",
+				"[concat(variables('factoryId'), '/datasets/ADEProjectDS')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Blob2SQLServerPipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1457,6 +1595,287 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/ConditionalSplitdataflow')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ConvertJson2CSVFilepipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyDataJsonToCSV",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['ID']"
+										},
+										"sink": {
+											"name": "ID",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ORDER_ID']"
+										},
+										"sink": {
+											"name": "ORDER_ID",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Order_Date']"
+										},
+										"sink": {
+											"name": "Order_Date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ship_date']"
+										},
+										"sink": {
+											"name": "ship_date",
+											"type": "DateTime"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Ship_Mode']"
+										},
+										"sink": {
+											"name": "Ship_Mode",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Customer_id']"
+										},
+										"sink": {
+											"name": "Customer_id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Custmoer_name']"
+										},
+										"sink": {
+											"name": "Custmoer_name"
+										}
+									},
+									{
+										"source": {
+											"path": "$['segment']"
+										},
+										"sink": {
+											"name": "segment",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Country']"
+										},
+										"sink": {
+											"name": "Country",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['city']"
+										},
+										"sink": {
+											"name": "city",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['state']"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['postal_code']"
+										},
+										"sink": {
+											"name": "postal_code",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['region']"
+										},
+										"sink": {
+											"name": "region",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['product_id']"
+										},
+										"sink": {
+											"name": "product_id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['category']"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['product_name']"
+										},
+										"sink": {
+											"name": "product_name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"path": "$['sales']"
+										},
+										"sink": {
+											"name": "sales",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"path": "$['quantity']"
+										},
+										"sink": {
+											"name": "quantity",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"path": "$['discount']"
+										},
+										"sink": {
+											"name": "discount",
+											"type": "Int16"
+										}
+									},
+									{
+										"source": {
+											"path": "$['profit']"
+										},
+										"sink": {
+											"name": "profit",
+											"type": "Decimal"
+										}
+									},
+									{
+										"source": {
+											"path": "$['user_id']"
+										},
+										"sink": {
+											"name": "user_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['state_id']"
+										},
+										"sink": {
+											"name": "state_id",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['order_s']"
+										},
+										"sink": {
+											"name": "order_s",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "customerJsonData",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CustomerDataCSV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/customerJsonData')]",
+				"[concat(variables('factoryId'), '/datasets/CustomerDataCSV')]"
 			]
 		},
 		{
@@ -4767,6 +5186,42 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ADEProjectDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AggregateRankDS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4870,6 +5325,34 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"TableName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"table": {
+						"value": "@dataset().TableName",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseLinkedService')]"
 			]
 		},
 		{
@@ -5198,6 +5681,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/CustomerDataCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CustomerData",
+						"container": "output"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DEFileNameDS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -5399,6 +5910,33 @@
 						"type": "AzureBlobStorageLocation",
 						"folderPath": "flights",
 						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedTextCSVList')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "raw"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -7108,6 +7646,103 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/customerJsonData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CustomerData.json",
+						"container": "input"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"ID": {
+							"type": "integer"
+						},
+						"ORDER_ID": {
+							"type": "string"
+						},
+						"Order_Date": {
+							"type": "string"
+						},
+						"ship_date": {
+							"type": "string"
+						},
+						"Ship_Mode": {
+							"type": "string"
+						},
+						"Customer_id": {
+							"type": "string"
+						},
+						"Custmoer_name": {
+							"type": "string"
+						},
+						"segment": {
+							"type": "string"
+						},
+						"Country": {
+							"type": "string"
+						},
+						"city": {
+							"type": "string"
+						},
+						"state": {
+							"type": "string"
+						},
+						"postal_code": {
+							"type": "integer"
+						},
+						"region": {
+							"type": "string"
+						},
+						"product_id": {
+							"type": "string"
+						},
+						"category": {
+							"type": "string"
+						},
+						"product_name": {
+							"type": "string"
+						},
+						"sales": {
+							"type": "number"
+						},
+						"quantity": {
+							"type": "integer"
+						},
+						"discount": {
+							"type": "integer"
+						},
+						"profit": {
+							"type": "number"
+						},
+						"user_id": {
+							"type": "null"
+						},
+						"state_id": {
+							"type": "null"
+						},
+						"order_s": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/e1IPDS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -8425,412 +9060,6 @@
 				"[concat(variables('factoryId'), '/datasets/EmpSalDS')]",
 				"[concat(variables('factoryId'), '/datasets/EmpSalDSOP')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ConvertJson2CSVFilepipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyDataJsonToCSV",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['ID']"
-										},
-										"sink": {
-											"name": "ID",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"path": "$['ORDER_ID']"
-										},
-										"sink": {
-											"name": "ORDER_ID",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['Order_Date']"
-										},
-										"sink": {
-											"name": "Order_Date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"path": "$['ship_date']"
-										},
-										"sink": {
-											"name": "ship_date",
-											"type": "DateTime"
-										}
-									},
-									{
-										"source": {
-											"path": "$['Ship_Mode']"
-										},
-										"sink": {
-											"name": "Ship_Mode",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['Customer_id']"
-										},
-										"sink": {
-											"name": "Customer_id",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['Custmoer_name']"
-										},
-										"sink": {
-											"name": "Custmoer_name"
-										}
-									},
-									{
-										"source": {
-											"path": "$['segment']"
-										},
-										"sink": {
-											"name": "segment",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['Country']"
-										},
-										"sink": {
-											"name": "Country",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['city']"
-										},
-										"sink": {
-											"name": "city",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['state']"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['postal_code']"
-										},
-										"sink": {
-											"name": "postal_code",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['region']"
-										},
-										"sink": {
-											"name": "region",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['product_id']"
-										},
-										"sink": {
-											"name": "product_id",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['category']"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['product_name']"
-										},
-										"sink": {
-											"name": "product_name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"path": "$['sales']"
-										},
-										"sink": {
-											"name": "sales",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"path": "$['quantity']"
-										},
-										"sink": {
-											"name": "quantity",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"path": "$['discount']"
-										},
-										"sink": {
-											"name": "discount",
-											"type": "Int16"
-										}
-									},
-									{
-										"source": {
-											"path": "$['profit']"
-										},
-										"sink": {
-											"name": "profit",
-											"type": "Decimal"
-										}
-									},
-									{
-										"source": {
-											"path": "$['user_id']"
-										},
-										"sink": {
-											"name": "user_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['state_id']"
-										},
-										"sink": {
-											"name": "state_id",
-											"type": "Int64"
-										}
-									},
-									{
-										"source": {
-											"path": "$['order_s']"
-										},
-										"sink": {
-											"name": "order_s",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "customerJsonData",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "CustomerDataCSV",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/customerJsonData')]",
-				"[concat(variables('factoryId'), '/datasets/CustomerDataCSV')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/customerJsonData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "CustomerData.json",
-						"container": "input"
-					}
-				},
-				"schema": {
-					"type": "object",
-					"properties": {
-						"ID": {
-							"type": "integer"
-						},
-						"ORDER_ID": {
-							"type": "string"
-						},
-						"Order_Date": {
-							"type": "string"
-						},
-						"ship_date": {
-							"type": "string"
-						},
-						"Ship_Mode": {
-							"type": "string"
-						},
-						"Customer_id": {
-							"type": "string"
-						},
-						"Custmoer_name": {
-							"type": "string"
-						},
-						"segment": {
-							"type": "string"
-						},
-						"Country": {
-							"type": "string"
-						},
-						"city": {
-							"type": "string"
-						},
-						"state": {
-							"type": "string"
-						},
-						"postal_code": {
-							"type": "integer"
-						},
-						"region": {
-							"type": "string"
-						},
-						"product_id": {
-							"type": "string"
-						},
-						"category": {
-							"type": "string"
-						},
-						"product_name": {
-							"type": "string"
-						},
-						"sales": {
-							"type": "number"
-						},
-						"quantity": {
-							"type": "integer"
-						},
-						"discount": {
-							"type": "integer"
-						},
-						"profit": {
-							"type": "number"
-						},
-						"user_id": {
-							"type": "null"
-						},
-						"state_id": {
-							"type": "null"
-						},
-						"order_s": {
-							"type": "string"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CustomerDataCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "CustomerData",
-						"container": "output"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		}
 	]
